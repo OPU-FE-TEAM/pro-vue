@@ -85,7 +85,6 @@ export default {
         menus: this.menus,
         activeName: this.activeName,
         menuSplitData: this.menuSplitData,
-        // menusSplitOpen: this.menusSplitOpen,
         menusSplitData: this.menusSplitData
       }
     };

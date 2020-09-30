@@ -18,14 +18,13 @@ const login = options => {
     avatar:
       "https://gw.alipayobjects.com/zos/rmsportal/jZUIxmJycoymBprLOUbT.png",
     token: "4291d7da9005377ec9aec4a71ea837f",
-    menus: [
-      {
-        id: 1,
-        name: "入门",
-        code: "guide"
-      }
-    ],
-    permission: ["user:add", "user:edit", "user:del", "user:reset", "user:role"]
+    permissions: [
+      "user:add",
+      "user:edit",
+      "user:del",
+      "user:reset",
+      "user:role"
+    ]
   });
 };
 

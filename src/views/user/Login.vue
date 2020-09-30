@@ -97,7 +97,7 @@ import {
   message
 } from "ant-design-vue";
 import md5 from "js-md5";
-import authApi from "@/api/auth";
+import { login } from "@/api/auth";
 import { mapActions } from "vuex";
 
 export default {
@@ -150,8 +150,7 @@ export default {
           if (values.password) {
             loginParams.password = md5(values.password);
           }
-          authApi
-            .login(loginParams)
+          login(loginParams)
             .then(res => this.loginSuccess(res))
             .catch(err => this.requestFailed(err))
             .finally(() => {

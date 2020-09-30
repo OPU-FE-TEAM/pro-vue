@@ -140,4 +140,4 @@ export const sendRequest = (apiUrl, params, type) => {
   return service(arr);
 };
 
-export default service;
+export default sendRequest;

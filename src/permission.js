@@ -14,6 +14,8 @@ router.beforeEach((to, from, next) => {
   NProgress.start();
 
   const token = cookie.get(TOKEN);
+  const userInfo = ls.get(USERINFO);
+
   if (whiteList.includes(to.name)) {
     next();
     return false;
@@ -22,19 +24,27 @@ router.beforeEach((to, from, next) => {
     store.dispatch("logout");
     NProgress.done();
     return;
-  } else if (store.getters.menus.length === 0 && !whiteList.includes(to.name)) {
+  } else if (
+    userInfo &&
+    userInfo.permissions.length === 0 &&
+    !whiteList.includes(to.name)
+  ) {
     // eslint-disable-next-line no-undef
-    if (env.PERMISSION && env.PERMISSION.router) {
+    if (
+      env.PERMISSION &&
+      env.PERMISSION.router &&
+      !store.getters.isRegTabsPage
+    ) {
       // 根据权限 动态注册路由
-      const user = ls.get(USERINFO);
-      console.log(user);
+      const roles = userInfo.permissions;
+      store.dispatch("generateRoutes", roles);
+      store.dispatch("setIsRegTabsPage", true);
     } else if (!store.getters.isRegTabsPage) {
       // 无需权限验证，直接动态注册路由（组件）
       store.dispatch("generateRoutes", false).then(() => {});
       store.dispatch("setIsRegTabsPage", true);
     }
   }
-  // console.log(to);
   if (to.meta.tabsPage === false) {
     next();
     return false;
@@ -79,7 +89,6 @@ router.beforeEach((to, from, next) => {
   const url =
     window.location.protocol + "//" + window.location.host + to.fullPath;
   next({ name: "home" });
-  // setUrl(url);
   setCurrentUrl(url);
 
   NProgress.done();
@@ -87,23 +96,5 @@ router.beforeEach((to, from, next) => {
 });
 
 router.afterEach(() => {
-  // debugger;
-  // if (
-  //   store.getters.currentTab &&
-  //   store.getters.currentTab.fullPath &&
-  //   store.getters.currentTab.fullPath !== "/home"
-  // ) {
-  //   // 首次加载，url非首页，将url修改为指定页
-  //   const url =
-  //     window.location.protocol +
-  //     "//" +
-  //     window.location.host +
-  //     store.getters.currentTab.fullPath;
-
-  //   // setTimeout(() => {
-  //   //   setCurrentUrl(url);
-  //   // }, 100);
-  // }
-
   NProgress.done();
 });
