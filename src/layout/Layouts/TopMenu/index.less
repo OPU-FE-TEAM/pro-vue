@@ -1,0 +1,79 @@
+
+
+@transition: all 0.1s ease-in-out;  //元素动画
+
+.layout-theme-topmenu{
+  .layout-header{
+    padding:0;
+    .layout-multiTab{
+      margin-top: 50px;
+    }
+  }
+  &.layout-menu-split {
+    .layout-content{
+      padding-top:50px;
+    }
+    .layout-theme-multiTab{
+
+      .layout-multiTab{
+        margin-top:50px;
+      }
+      .layout-content{
+        padding-top:0;
+        
+      }
+    }
+  }
+  &.layout-fixed{
+    .layout-box{
+      .layout-top-split{
+        position: fixed;
+        top:64px;
+      }
+      transition: @transition;
+      .layout-header,
+      .layout-multiTab{
+        transition: @transition;
+        position: fixed;
+        left: 0;
+        right: 0;
+        z-index: 100;
+      }
+      //导航折叠
+      &.menu-collapsed{
+        margin-left: 0;
+        .layout-header{
+          left:0;
+        }
+      }
+      .layout-multiTab{
+        top: 64px;
+        margin-top:0;
+        z-index: 99;
+      }
+      .layout-content{
+        margin-top:64px;
+      }
+      //多页签模式
+      &.layout-theme-multiTab{
+        .layout-content{
+          margin-top:106px;
+        }
+      }
+      
+    }
+    &.layout-menu-split{
+      .layout-content{
+        margin-top:62px;
+      }
+    }
+    &.layout-menu-split .layout-theme-multiTab{
+      .layout-multiTab{
+        top: 112px;
+      }
+      .layout-content{
+        margin-top:111px;
+      }
+    }
+  }
+}

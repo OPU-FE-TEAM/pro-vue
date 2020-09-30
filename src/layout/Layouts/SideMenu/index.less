@@ -1,0 +1,225 @@
+@menuWidth: 200px; //导航展开宽度
+@menuCollapsedWidth: 80px; //导航折叠宽度
+// @menuSplitWidth: 260px;  //导航拆分模式宽度
+@menuSplitWidth: 140px; //导航拆分模式宽度
+
+@transition: all 0.1s ease-in-out; //元素动画
+
+.layout-theme-sidemenu {
+
+  &.layout-fixed {
+    .layout-side {
+      position: fixed;
+      height: 100vh;
+      left: 0;
+      overflow: auto;
+      z-index: 100;
+
+      .sidemenu {
+        &.smallMenuText {
+          &>.menu-item {
+            padding: 0 !important;
+            text-align: center;
+            height: 60px;
+            line-height: 24px;
+            margin: 0;
+
+            a {
+              padding: 7px 10px;
+
+              &.router-link-active {
+                color: #1890ff !important;
+                // background: rgba(255, 255, 255, 0.1);
+                // background: #fff;
+              }
+
+              &>i {
+                font-size: 18px;
+                line-height: 18px;
+              }
+
+              &>span {
+                max-width: 100%;
+                display: block;
+                opacity: 1;
+                line-height: 22px;
+
+              }
+            }
+          }
+
+          &>.ant-menu-submenu>.ant-menu-submenu-title {
+            padding: 7px 10px !important;
+            text-align: center;
+            height: 60px;
+            line-height: 24px;
+
+
+            &>span {
+
+              &>i {
+                font-size: 18px;
+                line-height: 18px;
+              }
+
+              &>span {
+                max-width: 100%;
+                display: block;
+                opacity: 1;
+                line-height: 22px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .layout-box {
+      transition: @transition;
+      margin-left: @menuWidth;
+
+      .layout-header,
+      .layout-multiTab {
+        transition: @transition;
+        position: fixed;
+        left: @menuWidth;
+        right: 0;
+        z-index: 100;
+      }
+
+      //导航折叠
+      &.menu-collapsed {
+        margin-left: @menuCollapsedWidth;
+
+        .layout-header {
+          left: @menuCollapsedWidth;
+        }
+
+        .layout-multiTab {
+          left: @menuCollapsedWidth;
+        }
+      }
+
+      .layout-multiTab {
+        // top: 64px;
+        z-index: 99;
+      }
+
+      .layout-content {
+        // margin-top:64px;
+      }
+
+      //多页签模式
+      &.layout-theme-multiTab {
+        .layout-content {
+          margin-top: 42px;
+        }
+      }
+
+    }
+  }
+
+  &.layout-menu-split {
+
+    .layout-side-split {
+      // top:64px;
+      left: 0;
+
+      .toggle {
+        display: none;
+      }
+    }
+
+    .layout-box {
+      position: relative;
+      overflow: hidden;
+
+      .layout-multiTab,
+      .layout-content {
+        margin-left: @menuSplitWidth;
+      }
+    }
+
+    &.layout-fixed {
+      .layout-side-split {
+        position: fixed;
+        // top:64px;
+        // left: 80px;
+        left: -60px;
+        z-index: 99;
+
+        .toggle {
+          display: block;
+        }
+      }
+
+      .layout-multiTab,
+      .layout-content {
+        margin-left: 0;
+      }
+
+      .layout-multiTab {
+        left: @menuCollapsedWidth;
+      }
+
+      &.layout-split-open {
+        .layout-side-split {
+          left: 80px;
+          border-right: 1px solid #f0f2f5;
+        }
+
+        .layout-multiTab {
+          left: @menuCollapsedWidth + @menuSplitWidth;
+        }
+
+        .layout-content {
+          margin-left: @menuSplitWidth;
+        }
+      }
+    }
+  }
+
+  &.mobile {
+    .layout-box {
+      margin-left: 0;
+
+      .layout-content {
+        margin-left: 0;
+      }
+
+      .layout-header,
+      .layout-multiTab {
+        left: 0;
+      }
+
+      &.menu-collapsed {
+        margin-left: 0;
+
+        .layout-header {
+          left: 0;
+        }
+
+        .layout-multiTab {
+          left: 0;
+        }
+      }
+    }
+  }
+}
+
+
+.side-menu-drawer {
+  background: #001529;
+  height: 100%;
+  min-height: 100vh;
+  margin: 0;
+  position: fixed;
+  top: 0;
+  width: 256px;
+  overflow: hidden;
+}
+
+.side-menu-drawer-box {
+  overflow-y: auto;
+  height: 100vh;
+}
