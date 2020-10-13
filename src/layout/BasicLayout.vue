@@ -26,7 +26,7 @@ export default {
   computed: {
     ...mapState({
       // 主路由
-     mainMenu: state => state.app.menus,
+      mainMenu: state => state.app.addRouters, 
       currentTab: state => state.app.currentTab
     }),
     menuSplitData() {
@@ -52,11 +52,11 @@ export default {
     $route() {
       this.upDateActiveName();
     },
-    currentTab() {
+    currentTab() { 
       this.upDateActiveName();
     }
   },
-  created() {
+  created() {  
     if (env.PERMISSION && env.PERMISSION.router) {
       this.menus = this.mainMenu.find(item => item.path === "/").children;
     } else {

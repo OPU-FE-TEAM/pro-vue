@@ -5,9 +5,7 @@ import { constantRoutes, asyncRoutes } from "./router.config";
 Vue.use(Router);
 
 // eslint-disable-next-line no-undef
-let routers = env.PERMISSION.router
-  ? constantRoutes
-  : constantRoutes.concat(asyncRoutes);
+let routers =  constantRoutes.concat(asyncRoutes);
 
 export default new Router({
   mode: "history",
