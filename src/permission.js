@@ -19,14 +19,14 @@ router.beforeEach((to, from, next) => {
   if (whiteList.includes(to.name)) {
     next();
     return false;
-  } else if (!token && !whiteList.includes(to.name)) {
+  } else if ((!token || !userInfo) && !whiteList.includes(to.name)) {
     // 未登录并 不在路由白名单 跳转至登录页
     store.dispatch("logout");
     NProgress.done();
     return;
   } else if (
     userInfo &&
-    userInfo.permissions.length === 0 &&
+    // userInfo.permissions.length === 0 &&
     !whiteList.includes(to.name)
   ) {
     // eslint-disable-next-line no-undef
