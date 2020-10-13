@@ -1,8 +1,8 @@
 <template>
   <div
-    class="layout"
     :class="[
       device,
+      layoutCls,
       ...layoutModeClass,
       { 'layout-split-open': menusSplitOpen }
     ]"
@@ -32,9 +32,15 @@
         v-model="collapsed"
         :trigger="theme.menuMode === 'split' ? null : ''"
         class="layout-side"
+        @collapse="collapseMenu"
       >
         <logo :collapsed="collapsed" />
-        <Menu :menus="menus" :collapsed="collapsed" :activeName="activeName" />
+        <Menu
+          ref="Menu"
+          :menus="menus"
+          :collapsed="collapsed"
+          :activeName="activeName"
+        />
       </LayoutSider>
 
       <Layout
@@ -58,16 +64,21 @@
 
         <!-- 侧边二级导航 -->
         <MenuSplit
+          ref="MenuSplit"
           v-if="theme.menuMode === 'split'"
-          class="layout-side-split"
+          :class="{
+            'layout-side-split': true,
+            'layout-side-split-close': !menusSplitOpen
+          }"
           v-model="menusSplitOpen"
           :menus="menusSplitData"
+          @update="updateSplitMenu"
         />
 
         <!-- 多页签 -->
         <multi-tab v-if="theme.multiTab" class="layout-multiTab"></multi-tab>
 
-        <LayoutContent class="layout-content">
+        <LayoutContent class="layout-content test">
           <route-view />
           <!-- <LayoutFooter>
             <page-footer />
@@ -82,7 +93,7 @@
 import "../index.less";
 import "./index.less";
 import { Layout, Drawer } from "ant-design-vue";
-
+import { updateTheme } from "@/layout/Setting/settingConfig";
 import { mixinDevice } from "@/utils/mixin";
 import { RouteView, Logo, Menu, MenuSplit } from "../../Utils";
 import MultiTab from "../../MultiTab";
@@ -126,27 +137,38 @@ export default {
       default: () => {}
     }
   },
-  // watch: {
-  //   device(val) {
-  //     // switch (val) {
-  //     //   case DEVICE_TYPE.DESKTOP:
-  //     //     this.collapsed = false;
-  //     //     break;
-  //     //   case DEVICE_TYPE.TABLET:
-  //     //     this.collapsed = true;
-  //     //     break;
-  //     //   case DEVICE_TYPE.MOBILE:
-  //     //   default:
-  //     //     this.collapsed = true;
-  //     //     break;
-  //     // }
-  //   }
-  // },
+  watch: {
+    device(val) {
+      // switch (val) {
+      //   case DEVICE_TYPE.DESKTOP:
+      //     this.collapsed = false;
+      //     break;
+      //   case DEVICE_TYPE.TABLET:
+      //     this.collapsed = true;
+      //     break;
+      //   case DEVICE_TYPE.MOBILE:
+      //   default:
+      //     this.collapsed = true;
+      //     break;
+      // }
+    },
+    theme: {
+      handler: function(val) {
+        if (val.menuMode === "split") {
+          this.collapsed = true;
+        } else {
+          this.collapsed = !this.collapsed;
+        }
+      },
+      deep: true
+    }
+  },
 
   data() {
     return {
       collapsed: false,
-      menusSplitOpen: true
+      menusSplitOpen: true,
+      layoutCls: "layout"
     };
   },
 
@@ -160,6 +182,24 @@ export default {
     }
   },
   mounted() {},
-  methods: {}
+  methods: {
+    updateSplitMenu(val) {
+      this.menusSplitOpen = val;
+    },
+    collapseMenu(collapsed) {
+      if (collapsed) {
+        this.$refs.Menu.resetOpenKeys();
+      }
+    }
+  }
 };
 </script>
+
+<style lang="less" scoped>
+/deep/ .ant-layout-sider-children {
+  height: auto;
+}
+/deep/ .ant-layout-sider-trigger {
+  background: rgb(0, 19, 37);
+}
+</style>

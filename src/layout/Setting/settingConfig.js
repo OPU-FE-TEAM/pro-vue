@@ -93,7 +93,7 @@ export const updateTheme = theme => {
     bodyDom.classList.remove("colorWeak");
   }
   ls.set(THEME, theme);
-  themeColor.changeColor(theme).finally(() => {
+  themeColor.changeColor(theme).finally(t => {
     hideMessage();
   });
 };

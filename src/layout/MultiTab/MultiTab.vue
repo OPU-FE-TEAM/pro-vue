@@ -3,7 +3,10 @@ import { Tabs, Dropdown, Menu } from "ant-design-vue";
 import UserMenu from "../Utils/UserMenu";
 import events from "./events";
 import { mapState, mapActions } from "vuex";
-import { mixin } from "../Utils/mixin";
+import { mixin } from "../Utils/mixin"; 
+
+// import cloneDeep from "lodash/cloneDeep";
+// import { setCurrentUrl } from "@/utils/common";
 
 export default {
   name: "MultiTab",
@@ -22,8 +25,7 @@ export default {
       fullPathList: [],
       pages: [],
       activeKey: "",
-      newTabIndex: 0,
-      homePath: "/home"
+      newTabIndex: 0
     };
   },
   computed: {
@@ -51,8 +53,17 @@ export default {
         this.closeAll();
       })
       .$on("rename", ({ key, name }) => {
-        const item = this.tabsPages.find(item => item.fullPath === key);
-        item.title = name;
+        try {
+          // const pages = cloneDeep(this.pages);
+          const item = this.tabsPages.find(item => item.fullPath === key);
+          // console.log(item);
+          // debugger;
+
+          item.title = name;
+          // console.log("rename", this.pages, key, name, item);
+          // debugger;
+          // this.$forceUpdate();
+        } catch (e) {}
       });
 
     // this.pages.push(this.$route);
@@ -75,7 +86,7 @@ export default {
       }
     },
     remove(targetKey) {
-      if (targetKey === this.homePath) return;
+      if (targetKey === '/home') return;
       // const index = this.tabsPages.findIndex(page => page.fullPath === targetKey);
       // const name = this.pages[index].name;
       const pages = this.tabsPages.filter(page => page.fullPath !== targetKey);
@@ -125,11 +136,12 @@ export default {
       }
     },
     closeAll() {
-      const pages = this.tabsPages.filter(page => page.fullPath == "/home");
+      const pages = this.tabsPages.filter(
+        page => page.fullPath == '/home'
+      );
       this.setTabsPages(pages);
       this.selectedLastPath();
     },
-    // eslint-disable-next-line no-unused-vars
     closeMenuClick({ key, item, domEvent }) {
       const vkey = domEvent.target.getAttribute("data-vkey");
       switch (key) {
@@ -205,11 +217,12 @@ export default {
             type={"editable-card"}
             activeKey={this.currentTab.fullPath}
             tabBarStyle={{
-              background: "#FFF",
+              background: "#fafafa",
               margin: 0,
               paddingLeft: "16px",
               paddingTop: "1px"
             }}
+            style="overflow:initial;"
             {...{ on: { edit: onEdit, change: onChange } }}
           >
             {panes}

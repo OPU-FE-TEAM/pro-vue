@@ -2,6 +2,7 @@
 import { Menu, Icon } from "ant-design-vue";
 import cloneDeep from "lodash/cloneDeep";
 import { mixin } from "./mixin";
+import { mapState } from "vuex";
 export default {
   name: "Menu",
   components: {
@@ -49,6 +50,12 @@ export default {
       // isopen: true
     };
   },
+  computed: {
+    ...mapState({
+      // 主路由
+      currentTab: state => state.app.currentTab
+    })
+  },
   watch: {
     // isopen() {
     //   debugger;
@@ -64,6 +71,10 @@ export default {
     $route: function() {
       this.init();
       this.updateMenu();
+    },
+    currentTab() {
+      this.init();
+      this.updateMenu();
     }
   },
   created() {
@@ -75,7 +86,6 @@ export default {
       const menusData = cloneDeep(this.menus);
       const menus = menusData.children;
       this.copyMenus = this.filterMenus(menus);
-      console.log(this.menus);
       this.menuTitle =
         this.menus && this.menus.meta && this.menus.meta.title
           ? this.menus.meta.title
@@ -102,22 +112,33 @@ export default {
       }
     },
     updateMenu() {
-      const routes = this.$route.matched.concat();
+      // const routes = this.$route.matched.concat();
 
-      if (routes.length >= 4 && this.$route.meta.hidden) {
-        routes.pop();
-        this.selectedKeys = [routes[2].path];
+      // if (routes.length >= 4 && this.$route.meta.hidden) {
+      //   routes.pop();
+      //   this.selectedKeys = [routes[2].path];
+      // } else {
+      //   this.selectedKeys = [routes.pop().path];
+      // }
+      let matched = {};
+      if (this.menus.children && this.menus.children.length) {
+        matched = this.menus.children.find(
+          item => item.name == this.currentTab.name
+        );
+      }
+
+      if (matched.path) {
+        this.selectedKeys = [matched.path];
       } else {
-        this.selectedKeys = [routes.pop().path];
+        this.$emit("update", false);
       }
-
-      const openKeys = [];
-      if (this.mode === "inline" && this.theme.menuMode === "base") {
-        routes.forEach(item => {
-          openKeys.push(item.path);
-        });
-      }
-      this.openKeys = openKeys;
+      // const openKeys = [];
+      // if (this.mode === "inline" && this.theme.menuMode === "base") {
+      //   this.menus.children.forEach(item => {
+      //     openKeys.push(item.path);
+      //   });
+      // }
+      // this.openKeys = openKeys;
 
       // this.collapsed ? (this.cachedOpenKeys = openKeys) : (this.openKeys = openKeys)
     },
@@ -275,7 +296,7 @@ export default {
   .toggle {
     position: absolute;
     top: 50%;
-    right: -15px;
+    right: -25px;
     text-align: center;
     width: 24px;
     z-index: 1;
@@ -284,12 +305,18 @@ export default {
     transition: all 0.2s ease-in-out;
     cursor: pointer;
     i {
-      font-size: 20px;
+      font-size: 18px;
       transform: rotate(180deg);
       -ms-transform: rotate(180deg);
       -moz-transform: rotate(180deg);
       -webkit-transform: rotate(180deg);
       -o-transform: rotate(180deg);
+      -o-transition: all 0.1s ease, 0.1s ease;
+      -ms-transition: all 0.1s ease, 0.1s ease;
+      -moz-transition: all 0.1s ease, 0.1s ease;
+      -webkit-transition: all 0.1s ease, 0.1s ease;
+      position: relative;
+      left: -5px;
     }
     .bg {
       position: absolute;
@@ -303,12 +330,18 @@ export default {
       -webkit-transition: all 0.1s ease, 0.1s ease;
       border-bottom: 9px solid transparent;
       border-right: none;
-      border-left: 25px solid #d9dee4;
+      border-left: 18px solid #d9dee4;
       border-top: 9px solid transparent;
     }
 
     &:hover {
       right: -25px;
+      i {
+        left: 0;
+      }
+      .bg {
+        border-left: 25px solid #d9dee4;
+      }
     }
   }
   &.open {
@@ -316,6 +349,9 @@ export default {
     overflow: hidden;
     .toggle {
       right: -8px;
+      i {
+        left: 0;
+      }
       &:hover {
         right: 0px;
       }

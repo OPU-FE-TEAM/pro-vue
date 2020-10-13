@@ -1,35 +1,10 @@
 <template>
-  <div class="layout-logo" :class="theme.layoutMode">
-    <Popover
-      v-if="theme.layoutMode === 'sidemenu'"
-      title="切换仓库"
-      placement="rightTop"
-    >
-      <template slot="content">
-        <ul class="menu-list">
-          <li
-            class="menu-item"
-            v-for="item in manageWarehouseList"
-            :key="item.id"
-            :class="{ active: item.id === currentWarehouse.id }"
-            @click="setWarehouse(item)"
-          >
-            <span class="icon"><Icon type="check"/></span>
-            {{ item.text }}
-          </li>
-        </ul>
-      </template>
-      <div class="logo-box" :class="{ 'show-text': !collapsed }">
-        <span class="logo-img"><img src="/images/logo.jpg"/></span>
-        <span
-          class="logo-text"
-          :style="{ color: textColor }"
-          v-if="!collapsed || theme.layoutMode === 'topmenu'"
-          >{{ env.APP_TITLE }}</span
-        >
-      </div>
-    </Popover>
-    <router-link v-else :to="{ name: 'index' }">
+  <div
+    class="layout-logo"
+    :class="[theme.layoutMode, { 'show-text': !collapsed }]"
+  >
+    <!-- <router-link :to="{ name: 'home' }"> -->
+    <div class="logo-box" :class="{ 'show-text': !collapsed }">
       <span class="logo-img"><img src="/images/logo.jpg"/></span>
       <span
         class="logo-text"
@@ -37,19 +12,20 @@
         v-if="!collapsed || theme.layoutMode === 'topmenu'"
         >{{ env.APP_TITLE }}</span
       >
-    </router-link>
+    </div>
+    <!-- </router-link> -->
   </div>
 </template>
 
 <script>
-import { Popover, Icon, Modal, message } from "ant-design-vue";
-import { mixin } from "./mixin";
+import { Modal, message } from "ant-design-vue";
+import { mixin } from "./mixin"; 
 import { mapState, mapActions } from "vuex";
 
 export default {
   components: {
-    Popover,
-    Icon
+    // Popover,
+    // Icon
   },
   props: {
     collapsed: {
@@ -60,22 +36,20 @@ export default {
   },
   mixins: [mixin],
   data() {
-    return {
-      // eslint-disable-next-line no-undef
+    return { 
       env
     };
   },
   computed: {
     ...mapState({
-      userInfo: state => state.user.info,
-      currentWarehouse: state => state.user.currentWarehouse
+      // userInfo: state => state.user.info,
     }),
     // setCurrentWarehouse(){
 
     // },
-    manageWarehouseList() {
-      return this.userInfo.manageWarehouseList;
-    },
+    // manageWarehouseList() {
+    //   return this.userInfo.manageWarehouseList;
+    // },
     textColor() {
       let color = "";
       if (
@@ -89,27 +63,7 @@ export default {
       return color;
     }
   },
-  methods: {
-    ...mapActions(["setCurrentWarehouse"]),
-    setWarehouse(info) {
-      if (info.id === this.currentWarehouse.id) {
-        return false;
-      }
-      const that = this;
-      Modal.confirm({
-        title: "您确定切换仓库吗？",
-        content: "确认将关闭当前所有页签，并执行刷新",
-        okText: "确认",
-        onOk() {
-          // 关闭所有页签
-          that.$multiTab.closeAll();
-          that.setCurrentWarehouse(info);
-          message.success("切换仓库成功!");
-        },
-        onCancel() {}
-      });
-    }
-  }
+  methods: {}
 };
 </script>
 
@@ -119,6 +73,13 @@ export default {
     padding: 10px 12px;
     text-align: center;
     line-height: 0;
+    &.show-text {
+      position: fixed;
+      width: 200px;
+      z-index: 1;
+      background: #001529;
+    }
+
     .logo-img {
       width: 55px;
       display: inline-block;
@@ -132,6 +93,7 @@ export default {
     .logo-box {
       &.show-text {
         display: flex;
+
         .logo-img {
           width: 35px;
           display: block;

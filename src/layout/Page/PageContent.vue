@@ -1,7 +1,13 @@
 <script>
+import { Card } from "ant-design-vue";
+const baseCardbodyStyle = {
+  padding: "10px"
+};
 export default {
   name: "PageContent",
-  components: {},
+  components: {
+    Card
+  },
   props: {
     type: {
       type: String,
@@ -25,6 +31,8 @@ export default {
     const tabKey = this.$route.query.tab;
     if (tabKey) {
       this.tabActive = tabKey + "";
+    } else if (this.tabs && this.tabs.items && this.tabs.items.length) {
+      this.tabActive = this.tabs.items[0].key;
     }
   },
   methods: {
@@ -64,10 +72,11 @@ export default {
   render(h) {
     let content = this.$slots.default;
     if (this.type == "card") {
+      const bodyStyle = { ...baseCardbodyStyle, ...this.bodyStyle };
       const cardOption = {
         props: {
           bordered: false,
-          bodyStyle: this.bodyStyle
+          bodyStyle: bodyStyle
         }
       };
       let cardContent = this.$slots.default;
@@ -89,7 +98,7 @@ export default {
       }
 
       content = h(
-        "a-card",
+        "Card",
         {
           ...cardOption
         },

@@ -21,7 +21,7 @@ const api = {
     events.$emit("closeAll");
   },
   closeCurrentPageToNewPage: function(config) {
-    // this.close();
+    this.close();
     // setTimeout(() => {
     const configParams = config.params ? config.params : {};
     configParams.updateCurrentPage = true;

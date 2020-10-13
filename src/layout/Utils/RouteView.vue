@@ -1,9 +1,9 @@
 <script>
-import { mapState } from "vuex";
+import { mapState } from "vuex"; 
 export default {
   name: "RouteView",
   data() {
-    return {};
+    return {env};
   },
   computed: {
     ...mapState({
@@ -11,6 +11,11 @@ export default {
     })
   },
   render() {
+    const {
+      $route: { meta }
+    } = this;
+    // const includeArr = [" ", "AddBill"];
+
     const inKeep = (
       <keep-alive include={this.keepAliveComponents}>
         <router-view />
@@ -18,7 +23,6 @@ export default {
     );
     const notKeep = <router-view />;
 
-    // eslint-disable-next-line no-undef
     return env.THEME.multiTab ? inKeep : notKeep;
   }
 };

@@ -13,7 +13,8 @@
       height: 100vh;
       left: 0;
       overflow: auto;
-      z-index: 100;
+      z-index: 10;
+      overflow-x: hidden;
 
       .sidemenu {
         &.smallMenuText {
@@ -102,7 +103,7 @@
 
       .layout-multiTab {
         // top: 64px;
-        z-index: 99;
+        z-index: 999;
       }
 
       .layout-content {
@@ -145,7 +146,7 @@
         position: fixed;
         // top:64px;
         // left: 80px;
-        left: -60px;
+        left:@menuCollapsedWidth; 
         z-index: 99;
 
         .toggle {
@@ -161,7 +162,10 @@
       .layout-multiTab {
         left: @menuCollapsedWidth;
       }
-
+      .layout-side-split-close{
+        width: 0;
+        .menu-title,.layout-menu{display: none;} 
+      }
       &.layout-split-open {
         .layout-side-split {
           left: 80px;

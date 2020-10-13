@@ -88,7 +88,6 @@ export default {
       menusSplitOpen: true
     };
   },
-
   computed: {},
 
   created() {},

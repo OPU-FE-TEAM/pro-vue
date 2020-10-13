@@ -250,10 +250,10 @@ export default {
         multiTab: ${this.theme.multiTab}
       `;
       this.$copyText(text)
-        .then(() => {
+        .then(message => {
           this.$message.success("复制完毕");
         })
-        .catch(() => {
+        .catch(err => {
           this.$message.error("复制失败");
         });
     }

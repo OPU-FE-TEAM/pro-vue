@@ -1,6 +1,5 @@
 <script>
-import { Menu, Icon } from "ant-design-vue";
-
+import { Menu, Icon } from "ant-design-vue"; 
 import cloneDeep from "lodash/cloneDeep";
 import { mixin } from "./mixin";
 import { mapState, mapActions } from "vuex";
@@ -109,7 +108,8 @@ export default {
     },
     updateMenu() {
       const currentTab =
-        (this.currentTab && this.currentTab.fullPath) || "/home";
+        (this.currentTab && this.currentTab.fullPath) ||
+        '/home';
       this.selectedKeys = [currentTab];
 
       const menus = asyncRoutes.find(item => item.path === "/").children;
@@ -177,12 +177,17 @@ export default {
       if (icon === "none" || icon === undefined) {
         return null;
       }
-      const props = {};
-      typeof icon === "object" ? (props.component = icon) : (props.type = icon);
-      return <Icon {...{ props }} />;
+      if (icon.indexOf("iconfont ") > -1) {
+        return <i {...{ class: icon }} />;
+      } else {
+        const props = {};
+        typeof icon === "object"
+          ? (props.component = icon)
+          : (props.type = icon);
+        return <Icon {...{ props }} />;
+      }
     },
     onMenuSelect(obj) {
-      console.log(obj);
       if (obj.key === "/home") {
         // 切换到首页,直接操作tab设置为当前页
         this.setCurrentTab({
@@ -197,6 +202,9 @@ export default {
           path: obj.key
         });
       }
+    },
+    resetOpenKeys() {
+      this.openKeys = [];
     }
   },
 
@@ -268,6 +276,12 @@ export default {
         left: 50%;
         margin-left: -5px;
       }
+    }
+  }
+  &.sidemenu {
+    margin-top: 55px;
+    &.smallMenuText {
+      margin-top: 0;
     }
   }
 }

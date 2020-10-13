@@ -2,8 +2,9 @@
 import { mapState } from "vuex";
 import { LayoutSideMenu, LayoutTopMenu } from "./Layouts";
 import { mixin } from "./Utils/mixin";
-import { updateTheme } from "./Setting/settingConfig";
+import { updateTheme } from "./Setting/settingConfig"; 
 import { asyncRoutes } from "@/router/router.config";
+
 export default {
   name: "BasicLayout",
   components: {
@@ -15,8 +16,9 @@ export default {
     return {
       collapsed: false,
       menus: [],
-      activeName: ""
-      // menusSplitOpen: true
+      activeName: "",
+      // menusSplitOpen: true,
+      env
     };
   },
   mixins: [mixin],
@@ -24,7 +26,8 @@ export default {
   computed: {
     ...mapState({
       // 主路由
-      mainMenu: state => state.app.menus
+     mainMenu: state => state.app.menus,
+      currentTab: state => state.app.currentTab
     }),
     menuSplitData() {
       if (this.activeName) {
@@ -33,7 +36,7 @@ export default {
         );
         return this.menus[index];
       }
-      return [];
+      return {};
     },
     menusSplitData() {
       if (this.activeName) {
@@ -42,18 +45,19 @@ export default {
         );
         return this.menus[index];
       }
-      return [];
+      return {};
     }
   },
   watch: {
     $route() {
       this.upDateActiveName();
+    },
+    currentTab() {
+      this.upDateActiveName();
     }
   },
-
   created() {
-    // eslint-disable-next-line no-undef
-    if (env.PERMISSION.router) {
+    if (env.PERMISSION && env.PERMISSION.router) {
       this.menus = this.mainMenu.find(item => item.path === "/").children;
     } else {
       this.menus = asyncRoutes.find(item => item.path === "/").children;
@@ -64,9 +68,20 @@ export default {
   mounted() {},
   methods: {
     upDateActiveName() {
-      const matched = this.$route.matched;
-      if (matched && matched.length > 1) {
-        this.activeName = matched[1].name;
+      const matched = this.menus.find(el => {
+        if (el.name == this.currentTab.name) {
+          return el;
+        } else {
+          if (el.children && el.children.length) {
+            const result = el.children.find(
+              item => item.name == this.currentTab.name
+            );
+            return result;
+          }
+        }
+      });
+      if (matched) {
+        this.activeName = matched.name;
       }
     }
   },
@@ -75,7 +90,6 @@ export default {
       sidemenu: "layout-side-menu",
       topmenu: "layout-top-menu"
     };
-
     const layoutMode = layouts[this.theme.layoutMode]
       ? layouts[this.theme.layoutMode]
       : "layout-side-menu";
@@ -85,6 +99,7 @@ export default {
         menus: this.menus,
         activeName: this.activeName,
         menuSplitData: this.menuSplitData,
+        // menusSplitOpen: this.menusSplitOpen,
         menusSplitData: this.menusSplitData
       }
     };
