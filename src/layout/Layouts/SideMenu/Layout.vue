@@ -157,7 +157,8 @@ export default {
         if (val.menuMode === "split") {
           this.collapsed = true;
         } else {
-          this.collapsed = !this.collapsed;
+          // this.collapsed = !this.collapsed;
+          this.collapsed = false
         }
       },
       deep: true

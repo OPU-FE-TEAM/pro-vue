@@ -34,12 +34,12 @@
               <span>修改密码</span>
             </a>
           </MenuItem>
-          <MenuItem key="3">
+          <!-- <MenuItem key="3">
             <a href="javascript:;" @click="handleSetMessage">
               <Icon type="bell" />
               <span>消息弹出设置</span>
             </a>
-          </MenuItem>
+          </MenuItem> -->
           <MenuDivider />
           <MenuItem key="4">
             <a href="javascript:;" @click="handleLogout">
@@ -50,7 +50,7 @@
         </Menu>
       </Dropdown>
     </div>
-    <!-- <EditPassword ref="EditPassword"></EditPassword> -->
+    <EditPassword ref="EditPassword"></EditPassword>
     <!-- <setMessage ref="setMessage"></setMessage> -->
     <!-- <autoMessage
       ref="autoMessage"
@@ -62,10 +62,10 @@
 <script>
 import { Dropdown, Icon, Avatar, Menu, Modal, message } from "ant-design-vue";
 import { mapState, mapActions } from "vuex";
-import authApi from "@/api/auth";
+import { logout } from "@/api/auth";
 import setting from "../Setting";
 import { mixin } from "./mixin";
-// import EditPassword from "@/components/EditPassword/EditPassword.vue";
+import EditPassword from "@/components/tools/EditPassword.vue";
 // import setMessage from "@/components/setMessage.vue";
 // import autoMessage from "@/components/autoMessage.vue";
 // import config from "@/config/baseConfig";
@@ -79,7 +79,7 @@ export default {
     MenuItem: Menu.Item,
     MenuDivider: Menu.Divider,
     Avatar,
-    // EditPassword,
+    EditPassword,
     // autoMessage,
     // setMessage
   },
@@ -157,7 +157,7 @@ export default {
       this.messageVisible = type;
     },
     handleEditPassword() {
-      // this.$refs.EditPassword.show();
+      this.$refs.EditPassword.show();
     },
     handleSetMessage() {
       // this.$refs.setMessage.show();
@@ -169,8 +169,7 @@ export default {
         title: "提示",
         content: "真的要注销登录吗 ?",
         onOk() {
-          authApi
-            .logout({})
+          logout({})
             .then(res => {
               that.$message.success("退出成功");
               that.setIsRegTabsPage(false);
