@@ -20,7 +20,7 @@
     "mockjs2": "^1.0.7",
     "moment": "^2.24.0",
     "nprogress": "^0.2.0",
-    "opu-components-vue": "^1.1.1",
+    "opu-components-vue": "^1.2.2",
     "splitpanes": "^2.2.1",
     "vue": "^2.6.10",
     "vue-clipboard2": "^0.3.1",

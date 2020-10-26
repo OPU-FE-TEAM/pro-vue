@@ -3,8 +3,11 @@ import App from "./App.vue";
 import router from "./router/";
 import store from "./store/";
 import bootstrap from "./utils/bootstrap";
-import OpuComponents from 'opu-components-vue';
-import 'opu-components-vue/lib/opu.css'
+import Antd from "ant-design-vue";
+import OpuComponents from "opu-components-vue";
+import "ant-design-vue/dist/antd.css";
+import "opu-components-vue/lib/opu.css";
+Vue.use(Antd);
 Vue.use(OpuComponents);
 import "./utils/use";
 Vue.config.productionTip = false;
