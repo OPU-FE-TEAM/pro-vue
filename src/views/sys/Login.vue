@@ -92,8 +92,8 @@
 </template>
 
 <script>
-import md5 from "js-md5";
-import { login } from "@/api/auth";
+// import md5 from "js-md5";
+// import { login } from "@/api/auth";
 import { mapActions } from "vuex";
 
 export default {
@@ -117,7 +117,7 @@ export default {
     handleSubmit(e) {
       e.preventDefault();
       const {
-        form: { validateFields },
+        // form: { validateFields },
         state
       } = this;
 

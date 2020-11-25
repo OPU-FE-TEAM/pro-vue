@@ -1,4 +1,4 @@
-import router from "@/router/";
+// import router from "@/router/";
 import { ls } from "@/utils//cache";
 import { TOKEN, USERINFO } from "@/store/mutation-types";
 
@@ -34,7 +34,6 @@ const user = {
       // router.push({
       //   name: "login"
       // });
-      
     }
   }
 };

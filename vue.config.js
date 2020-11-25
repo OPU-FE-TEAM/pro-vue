@@ -13,6 +13,17 @@ const vueConfig = {
     }
   },
 
+  css: {
+    loaderOptions: {
+      less: {
+        modifyVars: {
+          "@backgroundColor": "#ff4444"
+        },
+        javascriptEnabled: true
+      }
+    }
+  },
+
   devServer: {
     port: 9996
   }

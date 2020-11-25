@@ -10,5 +10,9 @@ module.exports = {
   },
   parserOptions: {
     parser: "babel-eslint"
+  },
+  globals:{
+    less:null,
+    env:null
   }
 };

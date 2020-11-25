@@ -114,6 +114,7 @@ export default {
         }
       });
     },
+    // eslint-disable-next-line no-unused-vars
     closeMenuClick({ key, item, domEvent }) {
       const vkey = domEvent.target.getAttribute("data-vkey");
       switch (key) {

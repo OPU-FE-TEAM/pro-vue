@@ -28,11 +28,11 @@ export default {
         content: "真的要注销登录吗 ?",
         onOk() {
           logout({})
-            .then(res => {
+            .then(() => {
               that.$message.success("退出成功");
               that.logout();
             })
-            .catch(err => {
+            .catch(() => {
               that.$router.push({
                 name: "login"
               });

@@ -1,6 +1,7 @@
 import store from "@/store";
 
 export default {
+  // eslint-disable-next-line no-unused-vars
   inserted(el, binding, vnode) {
     if (!(env.PERMISSION && env.PERMISSION.action)) {
       return false;
