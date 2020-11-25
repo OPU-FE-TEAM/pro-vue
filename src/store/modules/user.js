@@ -1,4 +1,4 @@
-// import router from "@/router/";
+import router from "@/router/";
 import { ls } from "@/utils//cache";
 import { TOKEN, USERINFO } from "@/store/mutation-types";
 
@@ -31,9 +31,9 @@ const user = {
       commit("SET_INFO", {});
       ls.remove(TOKEN);
       ls.set(USERINFO, {});
-      // router.push({
-      //   name: "login"
-      // });
+      router.push({
+        name: "login"
+      });
     }
   }
 };
