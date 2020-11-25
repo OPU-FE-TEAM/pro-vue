@@ -2,7 +2,6 @@ import enquireJs from "enquire.js";
 
 export const DEVICE_TYPE = {
   DESKTOP: "desktop",
-  BIGDESKTOP: "bigdesktop",
   TABLET: "tablet",
   MOBILE: "mobile"
 };
@@ -11,12 +10,6 @@ export const deviceEnquire = function(callback) {
   const matchDesktop = {
     match: () => {
       callback && callback(DEVICE_TYPE.DESKTOP);
-    }
-  };
-
-  const matchBigDesktop = {
-    match: () => {
-      callback && callback(DEVICE_TYPE.BIGDESKTOP);
     }
   };
 
@@ -39,9 +32,5 @@ export const deviceEnquire = function(callback) {
       "screen and (min-width: 640px) and (max-width: 1199px)",
       matchLablet
     )
-    .register(
-      "screen and (min-width: 1200px) and (max-width: 1599px)",
-      matchDesktop
-    )
-    .register("screen and (min-width: 1600px)", matchBigDesktop);
+    .register("screen and (min-width: 1200px)", matchDesktop);
 };

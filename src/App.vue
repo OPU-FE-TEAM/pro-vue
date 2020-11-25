@@ -1,33 +1,28 @@
 <template>
   <div id="app">
-    <ConfigProvider :locale="zh_CN">
+    <a-config-provider :locale="zh_CN">
       <router-view />
-    </ConfigProvider>
+    </a-config-provider>
   </div>
 </template>
 
 <script>
-import { ConfigProvider } from "ant-design-vue";
-
 import { AppDeviceEnquire } from "@/utils/mixin";
 import zh_CN from "ant-design-vue/lib/locale-provider/zh_CN";
+
 export default {
   name: "BasicLayout",
   mixins: [AppDeviceEnquire],
 
-  components: {
-    ConfigProvider
-  },
+  components: {},
   provide() {
     return {};
   },
-
   data() {
     return {
       zh_CN
     };
   },
-  created() {},
   mounted() {},
   methods: {}
 };

@@ -1,0 +1,107 @@
+// 经典皮肤
+.default-layout.theme-default{
+    .layout-sidebar{
+        background-image: url(../../assets/images/light.png);
+        background-size: 100% 100%;
+
+        
+
+        &.dark{
+            background-image: url(../../assets/images/dark.png);
+            .layout-menu{
+                color:rgba(255,255,255,.65);
+                .ant-menu-submenu-selected{
+                    color:#fff;
+                }
+                &.ant-menu .ant-menu-item-selected{
+                    background-color: initial;
+                    background: none;
+                    color:#fff;
+                }
+                .ant-menu-submenu > .ant-menu{
+                    background-color: #4f6088;
+                }
+                .ant-menu-item > a{
+                    color:rgba(255,255,255,.65);
+                }
+                .ant-menu-item-selected > a, 
+                .ant-menu-item-selected > a:hover,
+                .ant-menu-item > a:hover,
+                .ant-menu-submenu-title:hover{
+                    color:#fff
+                }
+                .ant-menu-submenu-inline > .ant-menu-submenu-title .ant-menu-submenu-arrow::before,
+                .ant-menu-submenu-inline > .ant-menu-submenu-title .ant-menu-submenu-arrow::after{
+                    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0.65));
+                }
+                .ant-menu-item-selected::after{
+                    display: none;
+                }
+                &.ant-menu-inline, &.ant-menu-vertical, &.ant-menu-vertical-left{
+                    border-right: none;
+                }
+            }
+            .layout-logo{
+                color:#fff;
+            }
+            .menu-search-input{
+                .ant-input{
+                    background: rgba(255, 255, 255, .1);
+                }
+            }
+            .menu-sub-item.ant-menu-submenu .ant-menu-sub .ant-menu-sub{
+                background-color: #314268;
+                box-shadow: none;
+            }
+            .menu_keyword{
+                color:#64bcfe;
+            }
+        }
+    }
+    .side-drawer-button{
+        background: #fff;
+        border:1px solid #ddd;
+        color:#394664;
+        &.dark{
+            background: #394664;
+            border:1px solid #394664;
+            color:#fff;
+        }
+    }
+
+    .layout-header{
+        background: #fff;
+        &.dark{
+            background: #394664;
+            color:#fff;
+            .layout-breadcrumb{
+                .breadcrumb{
+                     a,.ant-breadcrumb-separator{
+                        color: #fff;
+                    }
+                    & > span{
+                        color: rgba(255,255,255,.6);
+                        font-weight: 400;
+                    }
+                }
+            }
+            .layout-logo{
+                color:#fff;
+            }
+            .ant-menu.ant-menu-dark .ant-menu-item-selected, .ant-menu-submenu-popup.ant-menu-dark .ant-menu-item-selected{
+                background-color: #273352;
+            }
+            
+        }
+    }
+    .multi-tab-wrapper{
+        background-color: #fff;
+        box-shadow: 0 4px 20px 0 rgba(0,0,0,.05);
+        .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab-active{
+            border-bottom:1px solid #e8e8e8;
+        }
+        .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab::before {
+            background-color: #018ffb;
+        }
+    }
+}

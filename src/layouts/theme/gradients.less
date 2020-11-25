@@ -1,0 +1,110 @@
+// 辣眼睛皮肤
+.default-layout.theme-gradients{
+    .layout-sidebar{
+        background: linear-gradient(225deg, #ffffff 0, #dbddf6 60%);
+        .ant-menu-item-selected > a, .ant-menu-item-selected > a:hover,
+        .ant-menu-item:hover, .ant-menu-item-active, .ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open, .ant-menu-submenu-active, .ant-menu-submenu-title:hover,
+        .ant-menu-submenu-selected{
+            color:#727cf5;
+        }
+
+        &.dark{
+            background: linear-gradient(135deg,#8f75da 0,#727cf5 60%);
+            .layout-menu{
+                color:rgba(255,255,255,.65);
+                .ant-menu-submenu-selected{
+                    color:#fff;
+                }
+                &.ant-menu .ant-menu-item-selected{
+                    background-color: initial;
+                    background: none;
+                    color:#fff;
+                }
+                .ant-menu-submenu > .ant-menu{
+                    background-color: #6669d7;
+                }
+                .ant-menu-item > a{
+                    color:rgba(255,255,255,.65);
+                }
+                .ant-menu-item-selected > a, 
+                .ant-menu-item-selected > a:hover,
+                .ant-menu-item > a:hover,
+                .ant-menu-submenu-title:hover{
+                    color:#fff
+                }
+                .ant-menu-submenu-inline > .ant-menu-submenu-title .ant-menu-submenu-arrow::before,
+                .ant-menu-submenu-inline > .ant-menu-submenu-title .ant-menu-submenu-arrow::after{
+                    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0.65));
+                }
+                .ant-menu-item-selected::after{
+                    display: none;
+                }
+                &.ant-menu-inline, &.ant-menu-vertical, &.ant-menu-vertical-left{
+                    border-right: none;
+                }
+            }
+            .layout-logo{
+                color:#fff;
+            }
+            .menu-search-input{
+                .ant-input{
+                    background: rgba(255, 255, 255, .1);
+                }
+            }
+            .menu-sub-item.ant-menu-submenu .ant-menu-sub .ant-menu-sub{
+                background-color: #6669d7;
+                box-shadow: none;
+            }
+            .menu_keyword{
+                color:#64bcfe;
+            }
+        }
+    }
+    .layout-header{
+        background: #fff;
+        &.dark{
+            background: linear-gradient(135deg,#8f75da 0,#727cf5 60%);
+            color:#fff;
+            .layout-breadcrumb{
+                .breadcrumb{
+                     a,.ant-breadcrumb-separator{
+                        color: #fff;
+                    }
+                    & > span{
+                        color: rgba(255,255,255,.6);
+                        font-weight: 400;
+                    }
+                }
+            }
+            .layout-logo{
+                color:#fff;
+            }
+            .ant-menu.ant-menu-dark .ant-menu-item-selected, .ant-menu-submenu-popup.ant-menu-dark .ant-menu-item-selected{
+                background-color: #273352;
+            }
+            
+        }
+    }
+    .multi-tab-wrapper{
+        background-color: #fff;
+        box-shadow: 0 4px 20px 0 rgba(0,0,0,.05);
+        .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab-active{
+            border-bottom:1px solid #e8e8e8;
+            background: #727cf5;
+            color:#fff;
+        }
+        .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab::before {
+            background-color: #727cf5;
+        }
+        .ant-tabs-nav .ant-tabs-tab:hover{
+            color:#727cf5;
+        }
+        .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab .ant-tabs-close-x{
+            color:#fff;
+        }
+    }
+    a:hover{
+        color:#727cf5;
+    }
+    
+}

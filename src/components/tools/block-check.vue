@@ -1,29 +1,21 @@
 <template>
   <div class="block-check-box">
-    <Tooltip v-for="(item, index) in data" :key="index">
-      <template slot="title">
-        {{ item.text }}
-      </template>
+    <a-tooltip v-for="(item, index) in data" :key="index">
+      <template slot="title">{{ item.text }}</template>
       <div class="block-check-item" @click="setValue(item)">
         <img v-if="item.img" :src="item.img" :alt="item.text" />
         <div v-else class="block-check-text">{{ item.text }}</div>
         <div class="block-check-checked" v-if="value == item[valueField]">
-          <Icon type="check" class="block-check-icon" />
+          <a-icon type="check" class="block-check-icon" />
         </div>
       </div>
-    </Tooltip>
+    </a-tooltip>
   </div>
 </template>
 
 <script>
-import { Icon, Tooltip } from "ant-design-vue";
-
 export default {
   name: "BlockCheck",
-  components: {
-    Icon,
-    Tooltip
-  },
   props: {
     value: {
       type: [String, Number],
@@ -40,12 +32,6 @@ export default {
       }
     }
   },
-  // watch: {
-  //   data() {
-  //     debugger;
-  //     this.data = this.data;
-  //   }
-  // },
   model: {
     prop: "value",
     event: "update"

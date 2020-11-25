@@ -1,41 +1,37 @@
 import Vue from "vue";
-import { asyncRoutes, constantRoutes } from "@/router/router.config";
-import { setCurrentUrl } from "@/utils/common";
+import { asyncRoutes } from "@/router/router.config";
 
 function hasPermission(permission, route) {
   if (route.meta && route.meta.permission) {
     let flag = false;
-    for (let i = 0, len = permission.length; i < len; i++) {
-      flag = route.meta.permission.includes(permission[i].code);
+    const routePermission = route.meta.permission;
+    for (let i = 0, len = routePermission.length; i < len; i++) {
+      const item = routePermission[i];
+      flag = permission.includes(item);
       if (flag) {
-        return permission[i];
+        break;
       }
     }
-    return false;
+    return flag;
   }
+
   return true;
 }
 
 function filterAsyncRouter(routerMap, roles) {
   const accessedRouters = routerMap.filter(route => {
-    let res = true;
-    if (roles !== false) {
-      res = hasPermission(roles, route);
-    }
-    // const res = hasPermission(roles, route);
+    const res = hasPermission(roles, route);
     if (res === true) {
       if (route.children && route.children.length) {
         route.children = filterAsyncRouter(route.children, roles);
-      } else {
-        // console.log(route.name);
-
-        Vue.component(route.name, route.component);
-        // 如果没有下级路由，则注册 tabs页面组件
+      } else if (route.meta && route.meta.component) {
+        // 保留的页面，将页面注册成全局组件
+        Vue.component(route.name, route.meta.component);
       }
       return true;
     } else if (res !== false) {
       if (route.children && route.children.length) {
-        route.children = filterAsyncRouter(route.children, res.children);
+        route.children = filterAsyncRouter(route.children, roles);
       }
       return true;
     }
@@ -51,70 +47,57 @@ const app = {
     theme: {},
     addRouters: [],
     device: "desktop",
-    keepAliveComponents: [],
-    tabPageDatas: {},
-    isRegTabsPage: false,
-    currentTab: {},
-    tabsPages: [
-      {
-        fullPath: "/home",
-        name: "home",
-        title: "首页",
-        params: {},
-        query: {}
-      }
-    ]
+    keepAliveTabs: [],
+    keepPages: [] // 保留的页面
   },
   mutations: {
-    SET_MENUS: (state, routers) => {
-      state.menus = routers;
-      state.routers = constantRoutes.concat(routers);
+    SET_MENUS: (state, menus) => {
+      state.menus = menus;
     },
     SET_THEME: (state, data) => {
       state.theme = data;
     },
+    SET_ADDROUTERS: (state, addRouters) => {
+      state.addRouters = addRouters;
+    },
     SET_ROUTERS: (state, routers) => {
-      state.addRouters = routers;
+      state.routers = routers;
     },
     TOGGLE_DEVICE: (state, device) => {
       state.device = device;
     },
-    KEEPALIVE(state, component) {
-      // 注：防止重复添加（当然也可以使用Set）
-      !state.keepAliveComponents.includes(component) &&
-        state.keepAliveComponents.push(component);
+    SET_KEEPALIVETABS: (state, tabs) => {
+      state.keepAliveTabs = tabs;
     },
-    NOKEEPALIVE: (state, component) => {
-      const index = state.keepAliveComponents.indexOf(component);
-      index !== -1 && state.keepAliveComponents.splice(index, 1);
+    ADD_KEEPALIVETABS: (state, tab) => {
+      state.keepAliveTabs = [...state.keepAliveTabs, tab];
     },
-    SETTABPAGEDATAS: (state, data) => {
-      state.tabPageDatas = data;
+    SET_KEEPPAGES: (state, pages) => {
+      state.keepPages = pages;
     },
-    SET_CURRENTTAB: (state, data) => {
-      state.currentTab = data;
-    },
-    SET_TABSPAGES: (state, pages) => {
-      state.tabsPages = pages;
-    },
-    SET_ISREGTABSPAGE: (state, is) => {
-      state.isRegTabsPage = is;
+    ADD_KEEPPAGES: (state, page) => {
+      const find = state.keepPages.find(p => p.fullPath === page.fullPath);
+      if (!(find && find.fullPath)) {
+        state.keepPages = [...state.keepPages, page];
+      }
     }
   },
   actions: {
     generateRoutes({ commit }, data) {
       return new Promise(resolve => {
-        // const { roles } = data;
         const accessedRouters = filterAsyncRouter(asyncRoutes, data);
-        commit("SET_ROUTERS", accessedRouters);
+        commit("SET_ADDROUTERS", accessedRouters);
         resolve();
       });
     },
     setAddRouters({ commit }, data) {
-      commit("SET_ROUTERS", data);
+      commit("SET_ADDROUTERS", data);
     },
     setMenus({ commit }, data) {
       commit("SET_MENUS", data);
+    },
+    setRoutes({ commit }, data) {
+      commit("SET_ROUTERS", data);
     },
 
     setTheme({ commit }, data) {
@@ -123,27 +106,23 @@ const app = {
     ToggleDevice({ commit }, device) {
       commit("TOGGLE_DEVICE", device);
     },
-    keepAlive({ commit }, component) {
-      commit("KEEPALIVE", component);
+    setKeepAliveTabs({ commit }, tabs) {
+      commit("SET_KEEPALIVETABS", tabs);
     },
-    noKeepAlive({ commit }, component) {
-      commit("NOKEEPALIVE", component);
+    addKeepAliveTab({ commit }, route) {
+      if (route.name && route.meta && route.meta.keepAlive !== false) {
+        const name =
+          route.meta && route.meta.keepAliveName
+            ? route.meta.keepAliveName
+            : route.name;
+        commit("ADD_KEEPALIVETABS", name);
+      }
     },
-    setTabPageDatas({ commit }, data) {
-      commit("SETTABPAGEDATAS", data);
+    setKeepPages({ commit }, pages) {
+      commit("SET_KEEPPAGES", pages);
     },
-    setTabsPages({ commit }, pages) {
-      commit("SET_TABSPAGES", pages);
-    },
-    setCurrentTab({ commit }, data) {
-      // 设置当前url
-      const url =
-        window.location.protocol + "//" + window.location.host + data.fullPath;
-      setCurrentUrl(url);
-      commit("SET_CURRENTTAB", data);
-    },
-    setIsRegTabsPage({ commit }, is) {
-      commit("SET_ISREGTABSPAGE", is);
+    addKeepPages({ commit }, page) {
+      commit("ADD_KEEPPAGES", page);
     }
   }
 };

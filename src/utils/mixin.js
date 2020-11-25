@@ -1,4 +1,5 @@
 import { mapState } from "vuex";
+
 import { deviceEnquire, DEVICE_TYPE } from "@/utils/device";
 
 const mixin = {
@@ -21,9 +22,6 @@ const mixinDevice = {
     isDesktop() {
       return this.device === DEVICE_TYPE.DESKTOP;
     },
-    isBigDesktop() {
-      return this.device === DEVICE_TYPE.BIGDESKTOP;
-    },
     isTablet() {
       return this.device === DEVICE_TYPE.TABLET;
     }
@@ -37,10 +35,6 @@ const AppDeviceEnquire = {
       switch (deviceType) {
         case DEVICE_TYPE.DESKTOP:
           $store.commit("TOGGLE_DEVICE", "desktop");
-          // $store.dispatch("setSidebar", true);
-          break;
-        case DEVICE_TYPE.BIGDESKTOP:
-          $store.commit("TOGGLE_DEVICE", "bigdesktop");
           // $store.dispatch("setSidebar", true);
           break;
         case DEVICE_TYPE.TABLET:

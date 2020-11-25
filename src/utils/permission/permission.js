@@ -1,9 +1,8 @@
 import store from "@/store";
 
 export default {
-  inserted(el, binding) {
-    // eslint-disable-next-line no-undef
-    if (!env.PERMISSION.action) {
+  inserted(el, binding, vnode) {
+    if (!(env.PERMISSION && env.PERMISSION.action)) {
       return false;
     }
     const { value } = binding;

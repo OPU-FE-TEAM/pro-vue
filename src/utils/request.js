@@ -1,9 +1,8 @@
 import axios from "axios";
 import store from "@/store/";
 import notification from "ant-design-vue/es/notification";
-import "ant-design-vue/lib/notification/style/css";
 import Modal from "ant-design-vue/es/modal";
-import "ant-design-vue/lib/modal/style/css";
+
 //默认配置
 const config = {
   // eslint-disable-next-line no-undef
@@ -23,10 +22,9 @@ const err = error => {
   if (error.response) {
     const status = error.response.status;
     const data = error.response.data;
-    let msg =
-      data && data[config.responseBody.message]
-        ? data[config.responseBody.message]
-        : "";
+    let message = "error";
+    let desc = "请求出错，请稍后尝试！";
+
     if (status === 401) {
       if (!modalOpen) {
         modalOpen = true;
@@ -46,17 +44,36 @@ const err = error => {
       }
       return false;
     } else if (status === 403) {
-      msg = "您没有权限";
+      message = status;
+      desc = "您没有权限";
     } else if (status === 404) {
-      msg = "api请求接口不存在";
+      message = status;
+      desc = "api请求接口不存在";
+    } else if (status) {
+      message = status;
+      desc = "请求出错，请稍后尝试";
+    } else {
+      if (error.message.indexOf("timeout") > -1) {
+        // 请求超时
+        message = error.message;
+        // eslint-disable-next-line no-undef
+        desc = "请求超时，超时时间：" + env.TIMEOUT + "毫秒";
+      } else if (error.message.indexOf("Network") > -1) {
+        // 请求超时
+        message = error.message;
+        desc = "网络出错，请检查网络";
+      } else {
+        desc = "请求出错，请稍后尝试！";
+      }
     }
-    const message =
-      data && data[config.responseBody.message]
-        ? data[config.responseBody.message]
-        : msg;
+
     notification.error({
-      message: status,
-      description: message
+      message: message,
+      description:
+        data && data[config.responseBody.message]
+          ? data[config.responseBody.message]
+          : desc,
+      duration: 5
     });
   }
 };

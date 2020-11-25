@@ -1,5 +1,5 @@
 import Vue from "vue";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 
 /**
  * @description: 缓存
@@ -26,14 +26,14 @@ export const ls = {
 };
 
 // cookie  缓存
-export const cookie = {
-  set(name, value) {
-    return Cookies.set(name, value);
-  },
-  get(name) {
-    return Cookies.get(name);
-  },
-  remove(name) {
-    return Cookies.remove(name);
-  }
-};
+// export const cookie = {
+//   set(name, value) {
+//     return Cookies.set(name, value);
+//   },
+//   get(name) {
+//     return Cookies.get(name);
+//   },
+//   remove(name) {
+//     return Cookies.remove(name);
+//   }
+// };

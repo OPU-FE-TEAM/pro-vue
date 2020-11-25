@@ -1,13 +1,11 @@
-// import { jump } from "@/utils/common";
 import router from "@/router/";
-import { ls, cookie } from "@/utils//cache";
-import { TOKEN, USERINFO, CURRENTWAREHOUSE } from "@/store/mutation-types";
+import { ls } from "@/utils//cache";
+import { TOKEN, USERINFO } from "@/store/mutation-types";
 
 const user = {
   state: {
     info: {},
-    token: "",
-    currentWarehouse: {}
+    token: ""
   },
 
   mutations: {
@@ -16,34 +14,27 @@ const user = {
     },
     SET_TOKEN: (state, token) => {
       state.token = token;
-    },
-    SET_CURRENTWAREHOUSE: (state, data) => {
-      state.currentWarehouse = data;
     }
   },
 
   actions: {
     setUserInfo({ commit }, info) {
-      // const user = cache.get("user");
       ls.set(USERINFO, info);
       commit("SET_INFO", info);
     },
     setToken({ commit }, token) {
-      cookie.set(TOKEN, token, { expires: 1 });
+      ls.set(TOKEN, token);
       commit("SET_TOKEN", token);
     },
     logout({ commit }) {
       commit("SET_TOKEN", "");
       commit("SET_INFO", {});
-      cookie.remove(TOKEN);
+      ls.remove(TOKEN);
       ls.set(USERINFO, {});
-      router.push({
-        name: "login"
-      });
-    },
-    setCurrentWarehouse({ commit }, data) {
-      ls.set(CURRENTWAREHOUSE, data);
-      commit("SET_CURRENTWAREHOUSE", data);
+      // router.push({
+      //   name: "login"
+      // });
+      
     }
   }
 };

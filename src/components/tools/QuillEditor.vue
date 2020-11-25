@@ -7,16 +7,15 @@
  -->
 <template>
   <div>
-    <Upload
+    <a-upload
       style="display:none;"
       name="file"
       class="editorUpLoad"
       :action="editorOption.serverUrl"
-      :headers="editorOption.header"
-      @change="uploadSuccess"
+      :beforeUpload="beforeUpload"
     >
-      <Button> Click to Upload </Button>
-    </Upload>
+      <a-button>Click to Upload</a-button>
+    </a-upload>
     <quill-editor
       v-model="data"
       ref="myQuillEditor"
@@ -24,14 +23,11 @@
       @blur="onEditorBlur($event)"
       @focus="onEditorFocus($event)"
       @change="onEditorChange($event)"
-    >
-    </quill-editor>
+    ></quill-editor>
   </div>
 </template>
 
 <script>
-import { Upload, Button } from "ant-design-vue";
-
 import cloneDeep from "lodash/cloneDeep";
 
 import { quillEditor } from "vue-quill-editor"; //调用编辑器
@@ -43,9 +39,7 @@ import globalApi from "@/api/global";
 export default {
   name: "QuillEditor",
   components: {
-    quillEditor,
-    Upload,
-    Button
+    quillEditor
   },
   props: {
     // option: {
@@ -65,20 +59,31 @@ export default {
       data: "",
       imageList: [],
       quillUpdateImg: false,
+      loadingKey: "uploadImage",
       editorOption: {
         theme: "snow", // or 'bubble'
         placeholder: "点击编辑详情",
-        serverUrl: globalApi.upload,
+        serverUrl: "globalApi.upload",
         header: {
           Authorization: "token"
         },
         modules: {
           toolbar: {
             container: [
-              ["bold", "italic", "underline"], // toggled buttons
-              [{ size: [] }, { align: [] }],
-              [{ color: [] }, { background: [] }],
-              ["image"]
+              ["bold", "italic", "underline", "strike"], // toggled buttons
+              ["blockquote", "code-block"],
+              [{ header: 1 }, { header: 2 }], // custom button values
+              [{ list: "ordered" }, { list: "bullet" }],
+              [{ script: "sub" }, { script: "super" }], // superscript/subscript
+              [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+              [{ direction: "rtl" }], // text direction
+              [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+              [{ header: [1, 2, 3, 4, 5, 6, false] }],
+              [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+              [{ font: [] }],
+              [{ align: [] }],
+              ["link", "image"],
+              ["clean"] // remove formatting button
             ],
             handlers: {
               image: function(value) {
@@ -133,43 +138,85 @@ export default {
     getData() {
       return this.data;
     },
+    setData(data) {
+      this.data = data;
+    },
+    getRef(refName) {
+      return this.$refs[refName];
+    },
+    beforeUpload(file) {
+      const formData = new FormData();
+      formData.append("file", file);
+      this.quillUpdateImg = true;
+      this.$message.loading({ content: "图片上传中...", key: this.loadingKey });
+      globalApi
+        .upload(formData)
+        .then(res => {
+          this.$message.success({
+            content: "上传成功",
+            key: this.loadingKey,
+            duration: 2
+          });
+          if (res.data && res.data.url) {
+            // eslint-disable-next-line no-undef
+            const imageUrl = res.data.url;
+            // 获取光标所在位置
+            let quill = this.$refs.myQuillEditor.quill;
+            let length = quill.getSelection().index;
+            // 插入图片  res.url为服务器返回的图片地址
+            quill.insertEmbed(length, "image", imageUrl);
+            // 调整光标到最后
+            quill.setSelection(length + 1);
+            this.quillUpdateImg = false;
+          }
+        })
+        .catch(() => {
+          this.$message.error({
+            content: "上传失败",
+            key: this.loadingKey,
+            duration: 2
+          });
+          this.$message.error("图片插入失败");
+        });
+      return false;
+    },
 
     // 富文本图片上传前
-    beforeUpload() {
-      // 显示loading动画
-      this.quillUpdateImg = true;
-    },
-    imagesUploadSuccess({ fileList }) {
-      this.imageList = fileList;
-    },
+    // beforeUpload() {
+    //   // 显示loading动画
+    //   this.quillUpdateImg = true;
+    // },
+    // imagesUploadSuccess({ fileList }) {
+    //   this.imageList = fileList;
+    // },
 
-    uploadSuccess(res) {
-      if (res && res.file && res.file.response) {
-        // res为图片服务器返回的数据
-        // 获取富文本组件实例
-        let quill = this.$refs.myQuillEditor.quill;
-        // 如果上传成功
-        if (res.file.response.Code == 0) {
-          const url = res.file.response.Data;
-          const fileUrl = url;
-          // 获取光标所在位置
-          let length = quill.getSelection().index;
-          // 插入图片  res.url为服务器返回的图片地址
-          quill.insertEmbed(length, "image", fileUrl);
-          // 调整光标到最后
-          quill.setSelection(length + 1);
-        } else {
-          this.$message.error("图片插入失败");
-        }
-        // loading动画消失
-        this.quillUpdateImg = false;
-      }
-    },
+    // uploadSuccess(res) {
+    //   if (res && res.file && res.file.response) {
+    //     // res为图片服务器返回的数据
+    //     // 获取富文本组件实例
+    //     let quill = this.$refs.myQuillEditor.quill;
+    //     // 如果上传成功
+    //     if (res.file.response.Code == 0) {
+    //       const url = res.file.response.Data;
+    //       const fileUrl = url;
+    //       // 获取光标所在位置
+    //       let length = quill.getSelection().index;
+    //       // 插入图片  res.url为服务器返回的图片地址
+    //       quill.insertEmbed(length, "image", fileUrl);
+    //       // 调整光标到最后
+    //       quill.setSelection(length + 1);
+    //     } else {
+    //       this.$message.error("图片插入失败");
+    //     }
+    //     // loading动画消失
+    //     this.quillUpdateImg = false;
+    //   }
+    // },
     // 富文本图片上传失败
     uploadError() {
       // loading动画消失
       this.quillUpdateImg = false;
-      this.$message.error("图片插入失败");
+      this.$message.error("图片插入失败2222");
     }
   }
 };

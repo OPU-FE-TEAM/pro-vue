@@ -1,64 +1,122 @@
+<template>
+  <div>
+    <DataTable
+      border
+      show-overflow
+      keep-source
+      ref="xGrid"
+      height="460"
+      :loading="loading"
+      :data="tableData"
+      :columns="tableColumn"
+      :edit-config="{ trigger: 'click', mode: 'row' }"
+    />
+  </div>
+</template>
+
 <script>
-import { Card } from "ant-design-vue";
-import { mapState } from "vuex";
-import Dashboard from "../dashboard/Index";
+// import { DataTable } from "opu-components-vue";
+// import "opu-components-vue/lib/dataTable/style";
+
+function getData(arr) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const list = Array.from({ length: arr.pageSize }, (_, key) => ({
+        id: key,
+        name: `name_${arr.pageIndex}_${key}`
+      }));
+      const json = {
+        data: list,
+        total: 100
+      };
+      resolve(json);
+    }, 500);
+  });
+}
+
 export default {
   components: {
-    Card,
-    Dashboard
-  },
-  computed: {
-    ...mapState({
-      tabsPages: state => state.app.tabsPages,
-      currentTab: state => state.app.currentTab
-    })
-  },
-  watch: {
-    currentTab(val) {
-      // 当tab页打开时，触发tab页组件 tabShow方法
-      const index = this.tabsPages.findIndex(p => p.fullPath === val.fullPath);
-      const refName = "tabPage_" + index;
-      if (index > -1 && this.$refs[refName] && this.$refs[refName].tabShow) {
-        this.$refs[refName].tabShow(val);
-      }
-    }
+    // DataTable
   },
   data() {
-    return {};
+    return {
+      loading: false,
+      tableColumn: [
+        { type: "checkbox", width: 60 },
+        { type: "seq", title: "Number", width: 80 },
+        {
+          field: "name",
+          title: "Number",
+          minWidth: 140,
+          editRender: { name: "AInput" }
+        }
+        // { field: 'age', title: 'InputNumber', width: 160, editRender: { name: 'InputNumber', props: { max: 35, min: 18 } } },
+        // { field: 'sex', title: 'Select', width: 140, editRender: { name: 'Select', options: [] } },
+        // { field: 'sex2', title: 'Select', width: 140, editRender: { name: 'Select', optionGroups: [], props: { clearable: true } } },
+        // { field: 'region', title: 'Cascader', width: 200, editRender: { name: 'Cascader', props: { data: [] } } },
+        // { field: 'date', title: 'DatePicker', width: 200, editRender: { name: 'DatePicker', props: { type: 'date', format: 'yyyy/MM/dd' } } },
+        // { field: 'date1', title: 'TimePicker', width: 200, editRender: { name: 'TimePicker', props: { type: 'time' } } },
+        // { field: 'flag', title: 'iSwitch', width: 100, cellRender: { name: 'iSwitch' } },
+        // { field: 'rate', title: 'Rate', width: 200, cellRender: { name: 'Rate' } }
+      ],
+      tablePage: {
+        total: 0,
+        currentPage: 1,
+        pageSize: 10,
+        align: "left",
+        pageSizes: [10, 20, 50, 100, 200, 500],
+        layouts: [
+          "Sizes",
+          "PrevJump",
+          "PrevPage",
+          "Number",
+          "NextPage",
+          "NextJump",
+          "FullJump",
+          "Total"
+        ],
+        perfect: true
+      },
+      tableData: []
+    };
   },
   created() {
-    // console.log(this.tabsPages);
+    this.findList();
   },
-  methods: {},
-  render(h) {
-    const pages = this.tabsPages.map((item, index) => {
-      const itemOption = {
-        ref: "tabPage_" + index,
-        key: item.fullPath,
-        props: {},
-        style: {
-          display: "none"
-        }
-      };
-
-      if (item.fullPath === this.currentTab.fullPath) {
-        itemOption.style = {
-          display: "block"
-        };
-      }
-      let template = "";
-      if (item.name !== "home") {
-        template = h(item.name, itemOption);
-      } else {
-        template = h("Dashboard", itemOption);
-      }
-
-      return template;
-    });
-
-    return <div>{pages}</div>;
+  methods: {
+    findList() {
+      // 模拟后台接口
+      this.loading = true;
+      getData({
+        pageIndex: this.tablePage.currentPage,
+        pageSize: this.tablePage.pageSize
+      })
+        .then(res => {
+          this.tableData = res.data;
+          this.tablePage.total = res.total;
+          this.loading = false;
+        })
+        .catch(() => {
+          this.loading = false;
+        });
+    },
+    searchEvent() {
+      this.tablePage.currentPage = 1;
+      this.findList();
+    },
+    handlePageChange({ currentPage, pageSize }) {
+      this.tablePage.currentPage = currentPage;
+      this.tablePage.pageSize = pageSize;
+      this.findList();
+    }
   }
+  // render(){
+  //   return(
+  //     <div>
+  //       <data-table/>
+  //       <div>666</div>
+  //     </div>
+  //   )
+  // }
 };
 </script>
-
-<style></style>
