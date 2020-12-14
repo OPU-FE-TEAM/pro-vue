@@ -5,8 +5,8 @@ import LayoutHeader from "./LayoutHeader";
 import MultipleTabs from "./multitabs";
 import { utils } from "opu-components-vue";
 import cloneDeep from "lodash/cloneDeep";
-import "./index.less";
-import "../theme/index.less";
+// import "./index.less";
+// import "../theme/index.less";
 
 export default {
   computed: {
@@ -53,9 +53,7 @@ export default {
     return (
       <a-layout
         class={[
-          `default-layout`,
-          theme.layoutMode,
-          `theme-${theme.themeStyle}`,
+          // theme.layoutMode,
           { "grey-mode": theme.greyMode }
         ]}
       >

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const env = {
   APP_TITLE: "OPU-PRO",
   API_HOST: "http://www.tp6.com",
@@ -32,5 +33,10 @@ const env = {
     sideCollapsed: false,
     retainOpenKeys: true,
     greyMode: false
+  },
+  THEMESTYLE: {
+    theme: "0",
+    sidebar: "0",
+    table: "0"
   }
 };

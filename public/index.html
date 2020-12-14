@@ -7,6 +7,8 @@
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title>opu-pro</title>
     <link rel="stylesheet" href="/icon/iconfont.css">
+    <link rel="stylesheet/less" type="text/css" href="/less/public.less" />
+    <link rel="stylesheet/less" type="text/css" href="/less/theme.less" />
     <script src="/config.js"></script>
   </head>
   <body>
@@ -15,5 +17,13 @@
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
+    <script>
+      window.less = {
+        async: true,
+        env: 'development',
+        javascriptEnabled: true
+      };
+    </script>
+    <script src="/less/less.js"></script>
   </body>
 </html>

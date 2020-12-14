@@ -145,7 +145,7 @@ export default {
         <a-layout-sider
           collapsible
           collapsed={theme.sideCollapsed}
-          class={[`layout-sidebar`, theme.sideTheme]}
+          class={[`layout-sidebar` /*, theme.sideTheme*/]}
           width={width}
         >
           {theme.layoutMode !== "sidetopmenu" && theme.showLogo && (
@@ -161,7 +161,7 @@ export default {
             <Menu
               ref="menu"
               menus={sideMenus}
-              theme={theme.sideTheme}
+              // theme={theme.sideTheme}
               retainOpenKeys={theme.retainOpenKeys}
               searchValue={searchValue}
             />

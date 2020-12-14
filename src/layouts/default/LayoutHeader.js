@@ -31,7 +31,10 @@ export default {
       theme.layoutMode !== "topmenu" &&
       !theme.menuSplit;
     return (
-      <a-layout-header collapsible class={[`layout-header`, theme.headerTheme]}>
+      <a-layout-header
+        collapsible
+        class={[`layout-header` /*, theme.headerTheme*/]}
+      >
         {theme.layoutMode != "sidemenu" && theme.showLogo && (
           <Logo theme={theme} device={device} />
         )}

@@ -17,7 +17,13 @@ const vueConfig = {
     loaderOptions: {
       less: {
         modifyVars: {
-          "@backgroundColor": "#ff4444"
+          "@sidebarBackground": "#dde4ea",
+          "@sidebarColor": "#4c4f51",
+          "@sidebarHoverColor": "#1890ff",
+          "@menuSelectColor": "#fff",
+          "@tableHeaderBackground": "#fff",
+          "@tableHeaderColor": "#606266",
+          "@tableHeaderBorderColor": "#e8eaec"
         },
         javascriptEnabled: true
       }

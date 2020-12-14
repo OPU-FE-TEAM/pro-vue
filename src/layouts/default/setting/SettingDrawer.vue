@@ -30,21 +30,56 @@
             <cell title="主题样式" :border="false">
               <span>
                 <a-select
-                  v-model="theme.themeStyle"
+                  v-model="copyThemeStyle.theme"
                   size="small"
                   style="width:100px"
-                  @change="onThemeChange"
+                  @change="onThemeStyleChange"
                 >
                   <a-select-option
-                    v-for="item in layoutThemes"
-                    :key="item.value"
+                    v-for="(item, index) in themeStyleData.themeStyleList"
+                    :key="index"
                     :value="item.value"
                     >{{ item.text }}</a-select-option
                   >
                 </a-select>
               </span>
             </cell>
-            <cell title="顶部栏主题" :border="false">
+            <cell title="导航样式" :border="false">
+              <span>
+                <a-select
+                  v-model="copyThemeStyle.sidebar"
+                  size="small"
+                  style="width:100px"
+                  @change="val => onThemeDetailStyleChange(val, 'sidebar')"
+                >
+                  <a-select-option
+                    v-for="(item,
+                    index) in themeStyleData.sidebarThemeStyleList"
+                    :key="index"
+                    :value="item.value"
+                    >{{ item.text }}</a-select-option
+                  >
+                </a-select>
+              </span>
+            </cell>
+            <cell title="表头样式" :border="false">
+              <span>
+                <a-select
+                  v-model="copyThemeStyle.table"
+                  size="small"
+                  style="width:100px"
+                  @change="val => onThemeDetailStyleChange(val, 'table')"
+                >
+                  <a-select-option
+                    v-for="(item, index) in themeStyleData.tableThemeStyleList"
+                    :key="index"
+                    :value="item.value"
+                    >{{ item.text }}</a-select-option
+                  >
+                </a-select>
+              </span>
+            </cell>
+            <!-- <cell title="顶部栏主题" :border="false">
               <span>
                 <a-select
                   v-model="theme.headerTheme"
@@ -77,7 +112,7 @@
                   >
                 </a-select>
               </span>
-            </cell>
+            </cell> -->
             <cell title="工具栏位置" :border="false">
               <span>
                 <a-select
@@ -233,11 +268,14 @@
 
 <script>
 import BlockCheck from "@/components/tools/block-check";
+import cloneDeep from "lodash/cloneDeep";
 // import { CellGroup, CellItem } from "@/components/tools/cell";
-import { layouts, routerTransitions, layoutThemes } from "./settingConfig";
-import { THEME } from "@/store/mutation-types";
+import { layouts, routerTransitions } from "./settingConfig";
+import { THEME, THEMESTYLE } from "@/store/mutation-types";
 import { ls } from "@/utils/cache";
 import { utils } from "opu-components-vue";
+import themeStyleData from "@/layouts/theme/config.js";
+import themeStyleUpdateData from "@/layouts/theme/";
 
 export default {
   components: {
@@ -249,6 +287,14 @@ export default {
     theme: {
       type: Object,
       default: () => {}
+    },
+    themeStyle: {
+      type: Object,
+      default: () => {}
+    },
+    setThemeStyle: {
+      type: Function,
+      default: null
     }
   },
   data() {
@@ -256,8 +302,16 @@ export default {
       visible: true,
       layouts,
       routerTransitions,
-      layoutThemes
+      themeStyleData,
+      copyThemeStyle: {
+        theme: 0,
+        sidebar: 0,
+        table: 0
+      }
     };
+  },
+  created() {
+    this.copyThemeStyle = cloneDeep(this.themeStyle);
   },
   methods: {
     onClose() {
@@ -265,6 +319,24 @@ export default {
     },
     toggle() {
       this.visible = !this.visible;
+    },
+    onThemeStyleChange(val) {
+      let themeStyle = {
+        theme: val,
+        ...themeStyleData.themeStyleList[val].data
+      };
+      this.copyThemeStyle = themeStyle;
+      this.setThemeStyle(themeStyle);
+      themeStyleUpdateData(themeStyle);
+      ls.set(THEMESTYLE, themeStyle);
+    },
+    onThemeDetailStyleChange(val, type) {
+      let themeStyle = this.copyThemeStyle;
+      themeStyle[type] = val;
+      this.copyThemeStyle = themeStyle;
+      this.setThemeStyle(themeStyle);
+      themeStyleUpdateData(themeStyle);
+      ls.set(THEMESTYLE, themeStyle);
     },
     onThemeChange() {
       if (this.theme.isUserSet) {

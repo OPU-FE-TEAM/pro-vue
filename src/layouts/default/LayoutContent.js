@@ -10,7 +10,7 @@ export default {
   render() {
     const { theme } = this;
     return (
-      <a-layout-content class={[`layout-content`, theme.contentMode]}>
+      <a-layout-content class={[`layout-content` /*, theme.contentMode*/]}>
         <PageLayout theme={theme} />
       </a-layout-content>
     );

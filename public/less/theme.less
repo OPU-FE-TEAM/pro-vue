@@ -1,0 +1,163 @@
+@sidebarBackground: #dde4ea;
+@sidebarColor:#4c4f51;
+@sidebarHoverColor: #1890ff;
+
+@menuBackground:@sidebarBackground;
+@submenuBackground: lighten(@sidebarBackground,8%);
+@menuColor:@sidebarColor;
+@menuHoverColor:@sidebarHoverColor;
+@menuSelectColor:#fff;
+
+@tableHeaderBackground:#fff;
+@tableHeaderColor:#606266;
+@tableHeaderBorderColor:#e8eaec;
+
+#app {
+    .layout-sidebar{
+        background:@sidebarBackground;
+        .menu-search-input{
+            .ant-input{
+                color: @sidebarColor;
+                background: lighten(@sidebarBackground,5%);
+                &:focus{
+                    border-color:saturate(@sidebarBackground,200%)
+                }
+            }
+            i{
+                color:@sidebarColor;
+            }
+        }
+    }
+    .layout-header{
+        background:@sidebarBackground;
+        color:@sidebarColor;
+        .header-action-item:hover{
+            color:@sidebarHoverColor;
+        }
+        .ant-breadcrumb span,.ant-breadcrumb:last-child,.ant-breadcrumb a{
+            color:@sidebarColor;
+        }
+    }
+
+    .vxe-table{
+        .vxe-header--row{
+            background:@tableHeaderBackground;
+            color:@tableHeaderColor;
+            .vue-header--column{
+                background-image: linear-gradient(@tableHeaderColor,@tableHeaderColor),linear-gradient(@tableHeaderColor,@tableHeaderColor);
+            }
+        }
+    }
+}
+
+
+.ant-menu-dark{
+    color:@menuColor;
+    background:@menuBackground;
+    .ant-menu-inline .ant-menu-submenu-title,.ant-menu-inline .ant-menu-item,.ant-menu-inline .ant-menu-item:not(:last-child){
+        margin:0;
+    }
+    &.ant-menu{
+        color:@menuColor;
+        background:@menuBackground;
+        .ant-menu-item > a{
+            color:@menuColor;
+        }
+        .ant-menu-submenu-open{
+            color:@menuColor;
+        }
+        .ant-menu-submenu-open > .ant-menu-submenu-title > .ant-menu-submenu-arrow::after,
+        .ant-menu-submenu-open > .ant-menu-submenu-title > .ant-menu-submenu-arrow::before{
+            background:@menuColor
+        }
+        .ant-menu-item:hover,.ant-menu-item-active,.ant-menu-submenu-active,.ant-menu-submenu-selected,.ant-menu-submenu-title:hover{
+            color:@menuHoverColor;
+        }
+
+        .ant-menu-submenu-title .ant-menu-submenu-arrow,.ant-menu-sub .ant-menu-submenu-title .ant-menu-submenu-arrow{
+            opacity: 1;
+        }
+
+        .ant-menu-submenu-title .ant-menu-submenu-arrow::after,
+        .ant-menu-submenu-title .ant-menu-submenu-arrow::before{
+            background:@menuColor;
+        }
+        .ant-menu-inline.ant-menu-sub{
+            background:@submenuBackground;
+        }
+        .ant-menu-sub{
+            color:@menuColor;
+            background:@submenuBackground;
+        }
+        .ant-menu-submenu-title .ant-menu-submenu-arrow::after,.ant-menu-sub .ant-menu-submenu-title .ant-menu-submenu-arrow::after,
+        .ant-menu-submenu-title .ant-menu-submenu-arrow::before,.ant-menu-sub .ant-menu-submenu-title .ant-menu-submenu-arrow::before{
+            background:@menuColor;
+        }
+        .ant-menu-item:hover > a,.ant-menu-item-active > a{
+            color:@menuHoverColor;
+        }
+
+        .ant-menu-submenu-selected > .ant-menu-submenu-title > .ant-menu-submenu-arrow::after,
+        .ant-menu-submenu-selected > .ant-menu-submenu-title > .ant-menu-submenu-arrow::before,
+        .ant-menu-submenu-active > .ant-menu-submenu-title:hover > .ant-menu-submenu-arrow::after,
+        .ant-menu-submenu-active > .ant-menu-submenu-title:hover > .ant-menu-submenu-arrow::before{
+            background:@menuHoverColor;
+        }
+
+        .ant-menu-item-selected,.ant-menu-item-selected:hover{
+            background:@menuHoverColor;
+            > a{
+                color:@menuSelectColor;
+            }
+        }
+    }
+
+    &.ant-menu-submenu-popup{
+        color:@menuColor;
+        .ant-menu-sub{
+            color:@menuColor;
+            background:@submenuBackground;
+        }
+        .ant-menu-item > a{
+            color:@menuColor;
+        }
+        .ant-menu-item-selected > a{
+            color:@menuSelectColor;
+        }
+        .ant-menu-item-selected > a.router-link-active,.ant-menu-item-selected:hover > a.router-link-active{
+            color:@menuSelectColor;
+        }
+        .ant-menu-submenu-selected{
+            color:@menuHoverColor;
+        }
+
+        .ant-menu-submenu-title:hover{
+            color:@menuHoverColor;
+        }
+        .ant-menu-item:hover > a,.ant-menu-item-active > a{
+            color:@menuHoverColor;
+        }
+
+        .ant-menu-submenu-title .ant-menu-submenu-arrow,.ant-menu-sub .ant-menu-submenu-title .ant-menu-submenu-arrow{
+            opacity: 1;
+        }
+        .ant-menu-submenu-title .ant-menu-submenu-arrow::after,.ant-menu-sub .ant-menu-submenu-title .ant-menu-submenu-arrow::after,
+        .ant-menu-submenu-title .ant-menu-submenu-arrow::before,.ant-menu-sub .ant-menu-submenu-title .ant-menu-submenu-arrow::before{
+            background:@menuColor;
+        }
+        .ant-menu-submenu-selected{
+            .ant-menu-submenu-title .ant-menu-submenu-arrow::after,.ant-menu-sub .ant-menu-submenu-title .ant-menu-submenu-arrow::after,
+            .ant-menu-submenu-title .ant-menu-submenu-arrow::before,.ant-menu-sub .ant-menu-submenu-title .ant-menu-submenu-arrow::before{
+                background:@menuHoverColor;
+            }
+        }
+        .ant-menu-submenu-active > .ant-menu-submenu-title:hover > .ant-menu-submenu-arrow::after,.ant-menu-submenu-open > .ant-menu-submenu-title:hover > .ant-menu-submenu-arrow::after,
+        .ant-menu-submenu-active > .ant-menu-submenu-title:hover > .ant-menu-submenu-arrow::before,.ant-menu-submenu-open > .ant-menu-submenu-title:hover > .ant-menu-submenu-arrow::before{
+            background:@menuHoverColor;
+        }
+        .ant-menu-submenu-active > .ant-menu-submenu-title > .ant-menu-submenu-arrow::after,.ant-menu-submenu-open > .ant-menu-submenu-title > .ant-menu-submenu-arrow::after,
+        .ant-menu-submenu-active > .ant-menu-submenu-title > .ant-menu-submenu-arrow::before,.ant-menu-submenu-open > .ant-menu-submenu-title > .ant-menu-submenu-arrow::before{
+            background:@menuHoverColor;
+        }
+    }
+}

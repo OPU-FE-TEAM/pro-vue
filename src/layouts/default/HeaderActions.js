@@ -1,6 +1,6 @@
 import settingDrawer from "./setting";
 import { logout } from "@/api/auth";
-import { mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
   props: {
@@ -13,11 +13,24 @@ export default {
   data() {
     return {};
   },
+  computed: {
+    ...mapState({
+      themeStyle: state => state.app.themeStyle
+    })
+  },
   methods: {
-    ...mapActions(["setUserInfo", "setToken", "setMenus", "setAddRouters"]),
+    ...mapActions([
+      "setUserInfo",
+      "setToken",
+      "setMenus",
+      "setAddRouters",
+      "setThemeStyle"
+    ]),
     openSetting() {
       settingDrawer({
-        theme: this.theme
+        theme: this.theme,
+        themeStyle: this.themeStyle,
+        setThemeStyle: this.setThemeStyle
       });
     },
     handleLogout() {

@@ -45,6 +45,7 @@ const app = {
     menus: [],
     routers: [],
     theme: {},
+    themeStyle: {},
     addRouters: [],
     device: "desktop",
     keepAliveTabs: [],
@@ -56,6 +57,9 @@ const app = {
     },
     SET_THEME: (state, data) => {
       state.theme = data;
+    },
+    SET_THEMESTYLE: (state, data) => {
+      state.themeStyle = { ...state.themeStyle, ...data };
     },
     SET_ADDROUTERS: (state, addRouters) => {
       state.addRouters = addRouters;
@@ -99,9 +103,11 @@ const app = {
     setRoutes({ commit }, data) {
       commit("SET_ROUTERS", data);
     },
-
     setTheme({ commit }, data) {
       commit("SET_THEME", data);
+    },
+    setThemeStyle({ commit }, data) {
+      commit("SET_THEMESTYLE", data);
     },
     ToggleDevice({ commit }, device) {
       commit("TOGGLE_DEVICE", device);
