@@ -36,7 +36,7 @@
                   @change="onThemeStyleChange"
                 >
                   <a-select-option
-                    v-for="(item, index) in themeStyleData.themeStyleList"
+                    v-for="(item, index) in themeStyleData.theme"
                     :key="index"
                     :value="item.value"
                     >{{ item.text }}</a-select-option
@@ -44,17 +44,35 @@
                 </a-select>
               </span>
             </cell>
-            <cell title="导航样式" :border="false">
+            <cell title="左侧导航样式" :border="false">
               <span>
                 <a-select
-                  v-model="copyThemeStyle.sidebar"
+                  v-model="copyThemeStyle.leftSidebar"
                   size="small"
                   style="width:100px"
-                  @change="val => onThemeDetailStyleChange(val, 'sidebar')"
+                  @change="val => onThemeDetailStyleChange(val, 'leftSidebar')"
                 >
                   <a-select-option
-                    v-for="(item,
-                    index) in themeStyleData.sidebarThemeStyleList"
+                    v-for="(item, index) in themeStyleData.leftSidebar"
+                    :key="index"
+                    :value="item.value"
+                    >{{ item.text }}</a-select-option
+                  >
+                </a-select>
+              </span>
+            </cell>
+            <cell title="顶部导航样式" :border="false">
+              <span>
+                <a-select
+                  v-model="copyThemeStyle.headerSidebar"
+                  size="small"
+                  style="width:100px"
+                  @change="
+                    val => onThemeDetailStyleChange(val, 'headerSidebar')
+                  "
+                >
+                  <a-select-option
+                    v-for="(item, index) in themeStyleData.headerSidebar"
                     :key="index"
                     :value="item.value"
                     >{{ item.text }}</a-select-option
@@ -71,7 +89,7 @@
                   @change="val => onThemeDetailStyleChange(val, 'table')"
                 >
                   <a-select-option
-                    v-for="(item, index) in themeStyleData.tableThemeStyleList"
+                    v-for="(item, index) in themeStyleData.table"
                     :key="index"
                     :value="item.value"
                     >{{ item.text }}</a-select-option
@@ -305,7 +323,8 @@ export default {
       themeStyleData,
       copyThemeStyle: {
         theme: 0,
-        sidebar: 0,
+        leftSidebar: 0,
+        headerSidebar: 0,
         table: 0
       }
     };
@@ -323,7 +342,7 @@ export default {
     onThemeStyleChange(val) {
       let themeStyle = {
         theme: val,
-        ...themeStyleData.themeStyleList[val].data
+        ...themeStyleData.theme[val].data
       };
       this.copyThemeStyle = themeStyle;
       this.setThemeStyle(themeStyle);

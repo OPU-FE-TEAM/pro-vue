@@ -1,11 +1,12 @@
 export default {
   //主题
-  themeStyleList: [
+  theme: [
     {
       text: "经典",
       value: "0",
       data: {
-        sidebar: "0",
+        leftSidebar: "0",
+        headerSidebar: "0",
         table: "0"
       }
     },
@@ -13,36 +14,60 @@ export default {
       text: "黑暗",
       value: "1",
       data: {
-        sidebar: "1",
+        leftSidebar: "1",
+        headerSidebar: "1",
         table: "1"
       }
     }
   ],
-  //侧边栏 顶部栏  menu导航
-  sidebarThemeStyleList: [
+  //侧边栏  menu导航
+  leftSidebar: [
     {
       text: "经典",
       value: "0",
       data: {
-        sidebarBackground: "#dde4ea",
-        sidebarColor: "#4c4f51",
-        sidebarHoverColor: "#1890ff",
-        menuSelectColor: "#fff"
+        leftSidebarBackground: "#dde4ea",
+        leftSidebarColor: "#4c4f51",
+        leftSidebarHoverColor: "#1890ff",
+        leftMenuSelectColor: "#fff"
       }
     },
     {
       text: "黑暗",
       value: "1",
       data: {
-        sidebarBackground: "#4f6088",
-        sidebarColor: "#fff",
-        sidebarHoverColor: "#1890ff",
-        menuSelectColor: "#fff"
+        leftSidebarBackground: "#4f6088",
+        leftSidebarColor: "#fff",
+        leftSidebarHoverColor: "#1890ff",
+        leftMenuSelectColor: "#fff"
+      }
+    }
+  ],
+  //顶部栏  menu导航
+  headerSidebar: [
+    {
+      text: "经典",
+      value: "0",
+      data: {
+        headerSidebarBackground: "#dde4ea",
+        headerSidebarColor: "#4c4f51",
+        headerSidebarHoverColor: "#1890ff",
+        headerMenuSelectColor: "#fff"
+      }
+    },
+    {
+      text: "黑暗",
+      value: "1",
+      data: {
+        headerSidebarBackground: "#4f6088",
+        headerSidebarColor: "#fff",
+        headerSidebarHoverColor: "#1890ff",
+        headerMenuSelectColor: "#fff"
       }
     }
   ],
   //表格header
-  tableThemeStyleList: [
+  table: [
     {
       text: "经典",
       value: "0",

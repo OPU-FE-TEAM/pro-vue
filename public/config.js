@@ -36,7 +36,8 @@ const env = {
   },
   THEMESTYLE: {
     theme: "0",
-    sidebar: "0",
+    leftSidebar: "0",
+    headerSidebar: "0",
     table: "0"
   }
 };

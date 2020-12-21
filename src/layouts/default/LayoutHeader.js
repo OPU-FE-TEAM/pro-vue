@@ -40,7 +40,7 @@ export default {
         )}
         <div class="layout-header-menu__content">
           {hasMenu && device != "mobile" && (
-            <Menu menus={menus} mode="horizontal" theme={theme.headerTheme} />
+            <Menu menus={menus} mode="horizontal" theme="light" />
           )}
           {hasBreadcrumb && device != "mobile" && <Breadcrumb menus={menus} />}
         </div>

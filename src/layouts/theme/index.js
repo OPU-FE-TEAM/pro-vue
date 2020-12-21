@@ -4,18 +4,25 @@ function themeStyleUpdate(data) {
   let lessVar = {};
   for (let i in data) {
     switch (i) {
-      case "sidebar":
+      case "leftSidebar":
         lessVar = {
           ...lessVar,
-          ...themeStyleData.sidebarThemeStyleList[0],
-          ...themeStyleData.sidebarThemeStyleList[data[i]].data
+          ...themeStyleData.leftSidebar[0],
+          ...themeStyleData.leftSidebar[data[i]].data
+        };
+        break;
+      case "headerSidebar":
+        lessVar = {
+          ...lessVar,
+          ...themeStyleData.headerSidebar[0],
+          ...themeStyleData.headerSidebar[data[i]].data
         };
         break;
       case "table":
         lessVar = {
           ...lessVar,
-          ...themeStyleData.tableThemeStyleList[0],
-          ...themeStyleData.tableThemeStyleList[data[i]].data
+          ...themeStyleData.table[0],
+          ...themeStyleData.table[data[i]].data
         };
         break;
     }
